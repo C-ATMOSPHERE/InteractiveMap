@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Xml.Linq;
+using System.IO.Compression;
 
 namespace InteractiveMap
 {
@@ -117,7 +118,8 @@ namespace InteractiveMap
 
         private void button1_Click(object sender, EventArgs e)
         {
-            xmlLoad();
+            //xmlLoad();
+            pictureBox2.Image = Image.FromFile("1.img");
         }
 
         private void Anim1()
@@ -163,6 +165,34 @@ namespace InteractiveMap
         private void button4_Click(object sender, EventArgs e)
         {
             xmlCreate();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            zipFolder("tfold", "arch.zip");
+        }
+
+        void zipFolder(string folder, string destination)
+        {
+            ZipFile.CreateFromDirectory(folder, destination);
+        }
+
+        void unZipFolder(string archSource, string destination)
+        {
+            ZipFile.ExtractToDirectory(archSource, destination);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            unZipFolder("arch.zip", "destFold");
+            try
+            {
+                pictureBox2.Image = Image.FromFile("destFold/1.img");
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка");
+            }
         }
     }
 

@@ -17,7 +17,7 @@ namespace InteractiveMap
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
-            //Application.Run(new DrawingTest());
+            Application.Run(new DrawingTest());
         }
     }
 }

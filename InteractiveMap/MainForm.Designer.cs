@@ -358,6 +358,7 @@
             this.загрузитьБазуToolStripMenuItem.Name = "загрузитьБазуToolStripMenuItem";
             this.загрузитьБазуToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.загрузитьБазуToolStripMenuItem.Text = "Загрузить базу";
+            this.загрузитьБазуToolStripMenuItem.Click += new System.EventHandler(this.загрузитьБазуToolStripMenuItem_Click);
             // 
             // testToolStripMenuItem
             // 
@@ -422,6 +423,7 @@
             this.KeyPreview = true;
             this.Name = "MainForm";
             this.Text = "Form1";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);

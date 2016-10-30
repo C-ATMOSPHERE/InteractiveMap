@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.IO.Compression;
 
 using GMap.NET;
 using GMap.NET.MapProviders;
@@ -38,6 +40,8 @@ namespace InteractiveMap
         Color tmpColor;
         List<InfoPanelContainer> database;
         int COUNTER = 0;
+        string _FOLDER = "tmpFolder";
+        string _FILENAME = "db.xml";
 
         public MainForm()
         {
@@ -396,9 +400,35 @@ namespace InteractiveMap
             }
         }
 
-        private void dbSave()
+        private void dbSave(string path)
         {
+            try
+            {
+                int counter = 0;
 
+                if (Directory.Exists(_FOLDER))
+                {
+                    Directory.Delete(_FOLDER, true);
+                }
+
+                Directory.CreateDirectory(_FOLDER);
+                xmlSave(_FOLDER + "/" + _FILENAME);
+
+                foreach (InfoPanelContainer cont in database)
+                {
+                    cont.image.Save(_FOLDER + "/" + cont.id.ToString() + ".img");
+                    counter++;
+                }
+
+                zipFolder(_FOLDER, path);
+                Directory.Delete(_FOLDER, true);
+
+                MessageBox.Show("База успешно сохранена!\nВсего записей: " + counter.ToString());
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
         }
 
         GMarkerGoogle getMarker(int id)
@@ -427,7 +457,7 @@ namespace InteractiveMap
                 place.Add(new XAttribute("id", cont.id));
                 place.Add(new XElement("header", cont.header));
                 place.Add(new XElement("description", cont.mainText));
-                place.Add(new XElement("image", "1.png"));
+                place.Add(new XElement("image", cont.id.ToString() + ".img"));
                 place.Add(new XElement("markerType", cont.markerType));
                 try
                 {
@@ -450,22 +480,86 @@ namespace InteractiveMap
             xDoc.Save(savePath);
         }
 
-        private void xmlLoad()
+        private void dbLoad(string loadPath)
         {
-            XDocument xDoc = XDocument.Load("database.xml");
-            String str = "";
-
-            foreach (XElement elem in xDoc.Element("Places").Elements("place"))
+            if (Directory.Exists(_FOLDER))
             {
-                XAttribute attr = elem.Attribute("id");
-                XElement elem1 = elem.Element("header");
-                XElement elem2 = elem.Element("description");
-
-                str += attr.Value + "; ";
-                str += elem1.Value + "; ";
-                str += elem2.Value + ";\n";
+                Directory.Delete(_FOLDER, true);
             }
-            MessageBox.Show(str);
+            //распаковываем
+            try
+            {
+                unZipFolder(loadPath,_FOLDER);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+            //Считываем данные
+            XDocument xDoc = new XDocument();
+            try
+            {
+                xDoc = XDocument.Load(_FOLDER + "/" + _FILENAME);
+            }
+            catch
+            {
+                MessageBox.Show("Не далось загрузить файл!");
+            }
+
+            int counter = 0;
+            database.Clear();////////////////////////////сохранить базу до успешной загурзки!
+            layMain.Markers.Clear();/////////////////////сохранить базу до успешной загурзки!
+
+            try
+            {
+                //Устаналиваем локаль (влияет на десятичный разделитель: точка - американский, запятая - русский)
+                Application.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+                foreach (XElement elem in xDoc.Element("Places").Elements("place"))
+                {
+                    database.Add(new InfoPanelContainer(
+                        int.Parse(elem.Attribute("id").Value),
+                        int.Parse(elem.Element("markerType").Value),
+                        elem.Element("header").Value,
+                        elem.Element("description").Value,
+                        Image.FromFile(_FOLDER + "/" + elem.Element("image").Value)
+                        ));
+                    GMarkerGoogle tmp = new GMarkerGoogle(
+                        new PointLatLng(
+                            double.Parse(elem.Element("lat").Value),
+                            double.Parse(elem.Element("lon").Value)),
+                        (GMarkerGoogleType)int.Parse(elem.Element("markerType").Value)
+                        );
+                    tmp.Tag = int.Parse(elem.Attribute("id").Value);
+                    layMain.Markers.Add(tmp);
+
+                    counter++;
+                }
+                Application.CurrentCulture = new System.Globalization.CultureInfo("ru-RU");
+                MessageBox.Show("Загрузка успешно завершена.\nЗагржено файлов: " + counter.ToString());
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Ошибка чтения из базы данных!\n" + e.ToString());
+            }
+            ////Удаляем временные файлы
+            //try
+            //{
+            //    Directory.Delete(_FOLDER, true);
+            //}
+            //catch(Exception e)
+            //{
+            //    MessageBox.Show(e.ToString());
+            //}
+        }
+
+        void zipFolder(string folder, string destination)
+        {
+            ZipFile.CreateFromDirectory(folder, destination);
+        }
+
+        void unZipFolder(string archSource, string destination)
+        {
+            ZipFile.ExtractToDirectory(archSource, destination);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -518,10 +612,29 @@ namespace InteractiveMap
 
         private void сохранитьБазуToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            dbSave();
-            xmlSave("db.xml");
+            SaveFileDialog sfd = new SaveFileDialog();
+            //ofd.Filter = "Изображения|*.jpg;*.png;*.jpeg";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                dbSave(sfd.FileName);
+            }
         }
 
+        private void загрузитьБазуToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                dbLoad(ofd.FileName);
+            }
+        }
 
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (Directory.Exists(_FOLDER))
+            {
+                Directory.Delete(_FOLDER, true);
+            }
+        }
     }
 }
