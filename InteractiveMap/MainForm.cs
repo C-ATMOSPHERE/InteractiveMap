@@ -13,6 +13,7 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET.WindowsForms.ToolTips;
+using System.Xml.Linq;
 
 namespace InteractiveMap
 {
@@ -24,7 +25,7 @@ namespace InteractiveMap
         /// <summary>
         /// true = hide, false = show
         /// </summary>
-        bool panelState = true;//true = show, false = hide;
+        bool panelState = false;//true = show, false = hide;
         bool panelMoving = false;//движется ли панель
         int panelId;
         Timer panelTimer = new Timer();
@@ -36,7 +37,7 @@ namespace InteractiveMap
         PointLatLng mainMapPos;
         Color tmpColor;
         List<InfoPanelContainer> database;
-        int COUNTER = -1;
+        int COUNTER = 0;
 
         public MainForm()
         {
@@ -55,7 +56,7 @@ namespace InteractiveMap
             /*currentMarker = new GMarkerGoogle(MainMap.Position, GMarkerGoogleType.arrow);
             currentMarker.IsHitTestVisible = false;
             top.Markers.Add(currentMarker);*/
-
+            panel1.Location = new Point(-208, panel1.Location.Y);
             panelTimer.Interval = 10;
             panelTimer.Tick += new EventHandler(panelTimerTick);
             //label2.Text = panel1.Location.X.ToString();
@@ -117,7 +118,7 @@ namespace InteractiveMap
 
         private void panelTimerTick(object sender, EventArgs e)
         {
-            label2.Text = panelState.ToString();/////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////
             //1000 ms
             int step = panWidth / (animDur / panelTimer.Interval);
 
@@ -148,9 +149,11 @@ namespace InteractiveMap
                         panelMoving = false;
                         panelState = true;
                         panelTimer.Stop();
+                        //panel1.Location = new Point(0, panel1.Location.Y);
                     }
                 }
             }
+            label2.Text = panel1.Location.X.ToString();
         }
 
         private void addMarkers()
@@ -323,9 +326,6 @@ namespace InteractiveMap
                 tmpItem = new InfoPanelContainer(COUNTER, comboBox1.SelectedIndex, newHeaderText.Text,
                     newDescription.Text, prewievImage.Image);
                 database.Add(tmpItem);
-                /*panelHeader.Text = newHeaderText.Text;
-                panelText.Text = newDescription.Text;
-                pictureBox1.Image = prewievImage.Image;*/
 
                 GMapMarker tmpMark = new GMarkerGoogle(mainMapPos, (GMarkerGoogleType)comboBox1.SelectedIndex);
                 tmpMark.ToolTipText = newHeaderText.Text;
@@ -333,6 +333,10 @@ namespace InteractiveMap
                 layMain.Markers.Add(tmpMark);
 
                 COUNTER++;
+
+                panelHeader.Text = newHeaderText.Text;
+                panelText.Text = newDescription.Text;
+                pictureBox1.Image = prewievImage.Image;
 
                 InfoPanelToogle(true);
             }
@@ -397,6 +401,73 @@ namespace InteractiveMap
 
         }
 
+        GMarkerGoogle getMarker(int id)
+        {
+            foreach (GMarkerGoogle mark in layMain.Markers)
+            {
+                if ((int)mark.Tag == id)
+                {
+                    return mark;
+                }
+            }
+            return null;
+        }
+
+        private void xmlSave(string savePath)
+        {
+            XDocument xDoc = new XDocument();
+
+            XElement root = new XElement("Places");
+            XElement place = new XElement("place");
+
+            foreach (InfoPanelContainer cont in database)
+            {
+                double lat, lon;
+                place = new XElement("place");
+                place.Add(new XAttribute("id", cont.id));
+                place.Add(new XElement("header", cont.header));
+                place.Add(new XElement("description", cont.mainText));
+                place.Add(new XElement("image", "1.png"));
+                place.Add(new XElement("markerType", cont.markerType));
+                try
+                {
+                    lat = getMarker(cont.id).Position.Lat;
+                    lon = getMarker(cont.id).Position.Lng;
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка при доступе к координатам маркера!");
+                    return;
+                }
+
+                place.Add(new XElement("lat", lat));
+                place.Add(new XElement("lon", lon));
+
+                root.Add(place);
+            }
+
+            xDoc.Add(root);
+            xDoc.Save(savePath);
+        }
+
+        private void xmlLoad()
+        {
+            XDocument xDoc = XDocument.Load("database.xml");
+            String str = "";
+
+            foreach (XElement elem in xDoc.Element("Places").Elements("place"))
+            {
+                XAttribute attr = elem.Attribute("id");
+                XElement elem1 = elem.Element("header");
+                XElement elem2 = elem.Element("description");
+
+                str += attr.Value + "; ";
+                str += elem1.Value + "; ";
+                str += elem2.Value + ";\n";
+            }
+            MessageBox.Show(str);
+        }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
@@ -448,6 +519,7 @@ namespace InteractiveMap
         private void сохранитьБазуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             dbSave();
+            xmlSave("db.xml");
         }
 
 
