@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Xml.Linq;
 using System.IO.Compression;
+using System.IO;
 
 namespace InteractiveMap
 {
@@ -184,15 +185,18 @@ namespace InteractiveMap
 
         private void button6_Click(object sender, EventArgs e)
         {
-            unZipFolder("arch.zip", "destFold");
-            try
-            {
-                pictureBox2.Image = Image.FromFile("destFold/1.img");
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка");
-            }
+            //unZipFolder("arch.zip", "destFold");
+            //try
+            //{
+            //    pictureBox2.Image = Image.FromFile("destFold/1.img");
+            //}
+            //catch
+            //{
+            //    MessageBox.Show("Ошибка");
+            //}
+            FileStream imgStream = File.OpenRead("blue.png");
+            pictureBox1.Image = Image.FromStream(imgStream);
+            imgStream.Close();
         }
     }
 

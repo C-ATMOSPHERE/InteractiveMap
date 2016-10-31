@@ -60,6 +60,9 @@
             this.infoHideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.сохранитьКэшToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьКэшToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -341,7 +344,9 @@
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.сохранитьБазуToolStripMenuItem,
-            this.загрузитьБазуToolStripMenuItem});
+            this.загрузитьБазуToolStripMenuItem,
+            this.сохранитьКэшToolStripMenuItem,
+            this.загрузитьКэшToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(48, 20);
             this.toolStripMenuItem1.Text = "Файл";
@@ -373,21 +378,21 @@
             // test1ToolStripMenuItem
             // 
             this.test1ToolStripMenuItem.Name = "test1ToolStripMenuItem";
-            this.test1ToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.test1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.test1ToolStripMenuItem.Text = "Test_1";
             this.test1ToolStripMenuItem.Click += new System.EventHandler(this.test1ToolStripMenuItem_Click);
             // 
             // infoShowToolStripMenuItem
             // 
             this.infoShowToolStripMenuItem.Name = "infoShowToolStripMenuItem";
-            this.infoShowToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.infoShowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.infoShowToolStripMenuItem.Text = "Info_Show";
             this.infoShowToolStripMenuItem.Click += new System.EventHandler(this.infoShowToolStripMenuItem_Click);
             // 
             // infoHideToolStripMenuItem
             // 
             this.infoHideToolStripMenuItem.Name = "infoHideToolStripMenuItem";
-            this.infoHideToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
+            this.infoHideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.infoHideToolStripMenuItem.Text = "Info_Hide";
             this.infoHideToolStripMenuItem.Click += new System.EventHandler(this.infoHideToolStripMenuItem_Click);
             // 
@@ -410,12 +415,37 @@
             this.label2.TabIndex = 9;
             this.label2.Text = "label2";
             // 
+            // сохранитьКэшToolStripMenuItem
+            // 
+            this.сохранитьКэшToolStripMenuItem.Name = "сохранитьКэшToolStripMenuItem";
+            this.сохранитьКэшToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.сохранитьКэшToolStripMenuItem.Text = "Сохранить кэш";
+            this.сохранитьКэшToolStripMenuItem.Click += new System.EventHandler(this.сохранитьКэшToolStripMenuItem_Click);
+            // 
+            // загрузитьКэшToolStripMenuItem
+            // 
+            this.загрузитьКэшToolStripMenuItem.Name = "загрузитьКэшToolStripMenuItem";
+            this.загрузитьКэшToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.загрузитьКэшToolStripMenuItem.Text = "Загрузить кэш";
+            this.загрузитьКэшToolStripMenuItem.Click += new System.EventHandler(this.загрузитьКэшToolStripMenuItem_Click);
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(732, 0);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(121, 21);
+            this.comboBox2.TabIndex = 8;
+            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 600);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -475,6 +505,9 @@
         private System.Windows.Forms.ToolStripMenuItem infoShowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoHideToolStripMenuItem;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ToolStripMenuItem сохранитьКэшToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem загрузитьКэшToolStripMenuItem;
+        private System.Windows.Forms.ComboBox comboBox2;
     }
 }
 

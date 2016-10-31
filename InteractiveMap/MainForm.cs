@@ -69,6 +69,9 @@ namespace InteractiveMap
             ////////////////////////////////////////////////////////////////////////////
             comboBox1.DataSource = Enum.GetValues(typeof(GMarkerGoogleType));
             comboBox1.SelectedIndex = 1;
+
+            comboBox2.DataSource = Enum.GetValues(typeof(AccessMode));
+            comboBox2.SelectedIndex = 0;
         }
 
         private void mapSetup(double lat, double lng)
@@ -92,6 +95,7 @@ namespace InteractiveMap
             MainMap.Zoom = 15; //начальное приближение
             zoom_bar.Value = (int)MainMap.Zoom * 100;
             MainMap.Dock = DockStyle.Fill;//размер окна карты относительно формы
+            MainMap.Manager.Mode = AccessMode.ServerAndCache;
 
             //Выбираем поставщика карт
             MainMap.MapProvider =
@@ -361,7 +365,7 @@ namespace InteractiveMap
             ofd.Filter = "Изображения|*.jpg;*.png;*.jpeg";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                prewievImage.Image = Image.FromFile(ofd.FileName);
+                prewievImage.Image = loadImage(ofd.FileName);
                 if (prewievImage.Image.Height != 200 && prewievImage.Image.Width != 200)
                 {
                     MessageBox.Show("Изображение не 200x200!\nИзображение будет выведено с искажениями!");
@@ -503,7 +507,7 @@ namespace InteractiveMap
             }
             catch
             {
-                MessageBox.Show("Не далось загрузить файл!");
+                MessageBox.Show("Не удалось загрузить файл!");
             }
 
             int counter = 0;
@@ -521,7 +525,7 @@ namespace InteractiveMap
                         int.Parse(elem.Element("markerType").Value),
                         elem.Element("header").Value,
                         elem.Element("description").Value,
-                        Image.FromFile(_FOLDER + "/" + elem.Element("image").Value)
+                        loadImage(_FOLDER + "/" + elem.Element("image").Value)
                         ));
                     GMarkerGoogle tmp = new GMarkerGoogle(
                         new PointLatLng(
@@ -541,15 +545,23 @@ namespace InteractiveMap
             {
                 MessageBox.Show("Ошибка чтения из базы данных!\n" + e.ToString());
             }
-            ////Удаляем временные файлы
-            //try
-            //{
-            //    Directory.Delete(_FOLDER, true);
-            //}
-            //catch(Exception e)
-            //{
-            //    MessageBox.Show(e.ToString());
-            //}
+            //Удаляем временные файлы
+            try
+            {
+                Directory.Delete(_FOLDER, true);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+        Image loadImage(string path)
+        {
+            FileStream imgStream = File.OpenRead(path);
+            Image img = Image.FromStream(imgStream);
+            imgStream.Close();
+            return img;
         }
 
         void zipFolder(string folder, string destination)
@@ -613,7 +625,7 @@ namespace InteractiveMap
         private void сохранитьБазуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog sfd = new SaveFileDialog();
-            //ofd.Filter = "Изображения|*.jpg;*.png;*.jpeg";
+            sfd.Filter = "База данных|*.db|Архив|*.zip";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 dbSave(sfd.FileName);
@@ -623,6 +635,7 @@ namespace InteractiveMap
         private void загрузитьБазуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "База данных|*.db|Все файлы|*.*";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 dbLoad(ofd.FileName);
@@ -635,6 +648,22 @@ namespace InteractiveMap
             {
                 Directory.Delete(_FOLDER, true);
             }
+        }
+
+        private void сохранитьКэшToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainMap.ShowExportDialog();
+        }
+
+        private void загрузитьКэшToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainMap.ShowImportDialog();
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MainMap.Manager.Mode = (AccessMode)comboBox2.SelectedIndex;
+            MainMap.ReloadMap();
         }
     }
 }
