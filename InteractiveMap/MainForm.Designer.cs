@@ -40,29 +40,30 @@
             this.btn_zoom_sub = new System.Windows.Forms.Button();
             this.cb_mapProvider = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnAddPoint = new System.Windows.Forms.Button();
             this.newDescription = new System.Windows.Forms.TextBox();
             this.newHeaderText = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.submit = new System.Windows.Forms.Button();
             this.addImage = new System.Windows.Forms.Button();
             this.prewievImage = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьБазуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.загрузитьБазуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьКэшToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьКэшToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.test1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoShowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoHideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.сохранитьКэшToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.загрузитьКэшToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.infoToogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -215,15 +216,15 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.btnAddPoint);
             this.groupBox2.Controls.Add(this.newDescription);
             this.groupBox2.Controls.Add(this.newHeaderText);
+            this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.submit);
             this.groupBox2.Controls.Add(this.addImage);
             this.groupBox2.Controls.Add(this.prewievImage);
-            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.textBox2);
             this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.btn_zoom_add);
             this.groupBox2.Controls.Add(this.zoom_bar);
@@ -234,16 +235,6 @@
             this.groupBox2.Size = new System.Drawing.Size(274, 566);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
-            // 
-            // btnAddPoint
-            // 
-            this.btnAddPoint.Location = new System.Drawing.Point(124, 86);
-            this.btnAddPoint.Name = "btnAddPoint";
-            this.btnAddPoint.Size = new System.Drawing.Size(133, 23);
-            this.btnAddPoint.TabIndex = 11;
-            this.btnAddPoint.Text = "Добавить метку";
-            this.btnAddPoint.UseVisualStyleBackColor = true;
-            this.btnAddPoint.Click += new System.EventHandler(this.btnAddPoint_Click);
             // 
             // newDescription
             // 
@@ -262,6 +253,16 @@
             this.newHeaderText.Size = new System.Drawing.Size(200, 20);
             this.newHeaderText.TabIndex = 10;
             this.newHeaderText.Text = "Заголовок";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(136, 88);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 8;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // submit
             // 
@@ -294,17 +295,6 @@
             this.prewievImage.TabIndex = 9;
             this.prewievImage.TabStop = false;
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.SystemColors.Control;
-            this.button1.Location = new System.Drawing.Point(57, 86);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(61, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "InfoPanel";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // textBox2
             // 
             this.textBox2.Location = new System.Drawing.Point(166, 59);
@@ -319,6 +309,15 @@
             this.textBox1.Size = new System.Drawing.Size(103, 20);
             this.textBox1.TabIndex = 7;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(54, 91);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 13);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Выбор метки:";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -330,13 +329,14 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.testToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(1012, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(97, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -346,7 +346,8 @@
             this.сохранитьБазуToolStripMenuItem,
             this.загрузитьБазуToolStripMenuItem,
             this.сохранитьКэшToolStripMenuItem,
-            this.загрузитьКэшToolStripMenuItem});
+            this.загрузитьКэшToolStripMenuItem,
+            this.выходToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(48, 20);
             this.toolStripMenuItem1.Text = "Файл";
@@ -365,56 +366,6 @@
             this.загрузитьБазуToolStripMenuItem.Text = "Загрузить базу";
             this.загрузитьБазуToolStripMenuItem.Click += new System.EventHandler(this.загрузитьБазуToolStripMenuItem_Click);
             // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.test1ToolStripMenuItem,
-            this.infoShowToolStripMenuItem,
-            this.infoHideToolStripMenuItem});
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
-            this.testToolStripMenuItem.Text = "Test";
-            // 
-            // test1ToolStripMenuItem
-            // 
-            this.test1ToolStripMenuItem.Name = "test1ToolStripMenuItem";
-            this.test1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.test1ToolStripMenuItem.Text = "Test_1";
-            this.test1ToolStripMenuItem.Click += new System.EventHandler(this.test1ToolStripMenuItem_Click);
-            // 
-            // infoShowToolStripMenuItem
-            // 
-            this.infoShowToolStripMenuItem.Name = "infoShowToolStripMenuItem";
-            this.infoShowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.infoShowToolStripMenuItem.Text = "Info_Show";
-            this.infoShowToolStripMenuItem.Click += new System.EventHandler(this.infoShowToolStripMenuItem_Click);
-            // 
-            // infoHideToolStripMenuItem
-            // 
-            this.infoHideToolStripMenuItem.Name = "infoHideToolStripMenuItem";
-            this.infoHideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.infoHideToolStripMenuItem.Text = "Info_Hide";
-            this.infoHideToolStripMenuItem.Click += new System.EventHandler(this.infoHideToolStripMenuItem_Click);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(227, 2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 8;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(355, 10);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "label2";
-            // 
             // сохранитьКэшToolStripMenuItem
             // 
             this.сохранитьКэшToolStripMenuItem.Name = "сохранитьКэшToolStripMenuItem";
@@ -429,30 +380,86 @@
             this.загрузитьКэшToolStripMenuItem.Text = "Загрузить кэш";
             this.загрузитьКэшToolStripMenuItem.Click += new System.EventHandler(this.загрузитьКэшToolStripMenuItem_Click);
             // 
+            // выходToolStripMenuItem
+            // 
+            this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.test1ToolStripMenuItem,
+            this.infoShowToolStripMenuItem,
+            this.infoHideToolStripMenuItem,
+            this.infoToogleToolStripMenuItem});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.testToolStripMenuItem.Text = "Test";
+            // 
+            // test1ToolStripMenuItem
+            // 
+            this.test1ToolStripMenuItem.Name = "test1ToolStripMenuItem";
+            this.test1ToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.test1ToolStripMenuItem.Text = "Test_1";
+            this.test1ToolStripMenuItem.Click += new System.EventHandler(this.test1ToolStripMenuItem_Click);
+            // 
+            // infoShowToolStripMenuItem
+            // 
+            this.infoShowToolStripMenuItem.Name = "infoShowToolStripMenuItem";
+            this.infoShowToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.infoShowToolStripMenuItem.Text = "Info_Show";
+            this.infoShowToolStripMenuItem.Click += new System.EventHandler(this.infoShowToolStripMenuItem_Click);
+            // 
+            // infoHideToolStripMenuItem
+            // 
+            this.infoHideToolStripMenuItem.Name = "infoHideToolStripMenuItem";
+            this.infoHideToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.infoHideToolStripMenuItem.Text = "Info_Hide";
+            this.infoHideToolStripMenuItem.Click += new System.EventHandler(this.infoHideToolStripMenuItem_Click);
+            // 
+            // infoToogleToolStripMenuItem
+            // 
+            this.infoToogleToolStripMenuItem.Name = "infoToogleToolStripMenuItem";
+            this.infoToogleToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.infoToogleToolStripMenuItem.Text = "Info_Toogle";
+            this.infoToogleToolStripMenuItem.Click += new System.EventHandler(this.button1_Click);
+            // 
             // comboBox2
             // 
+            this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(732, 0);
+            this.comboBox2.Location = new System.Drawing.Point(879, 3);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(121, 21);
             this.comboBox2.TabIndex = 8;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(721, 6);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(152, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Режим работы (online/offline)";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 600);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.label4);
             this.KeyPreview = true;
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "Интерактивная карта";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
@@ -484,7 +491,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox panelHeader;
         private System.Windows.Forms.TextBox panelText;
@@ -494,7 +500,6 @@
         private System.Windows.Forms.Button submit;
         private System.Windows.Forms.Button addImage;
         private System.Windows.Forms.PictureBox prewievImage;
-        private System.Windows.Forms.Button btnAddPoint;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem сохранитьБазуToolStripMenuItem;
@@ -504,10 +509,13 @@
         private System.Windows.Forms.ToolStripMenuItem test1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoShowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoHideToolStripMenuItem;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ToolStripMenuItem сохранитьКэшToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem загрузитьКэшToolStripMenuItem;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ToolStripMenuItem infoToogleToolStripMenuItem;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
     }
 }
 

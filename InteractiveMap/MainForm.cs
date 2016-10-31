@@ -22,7 +22,6 @@ namespace InteractiveMap
     public partial class MainForm : Form
     {
         bool imageSizeNotif = true;//один раз выводим ведомление о размерах изображения
-        bool addPointFlag = false;
         int animDur = 250;//продолжительность 
         /// <summary>
         /// true = hide, false = show
@@ -37,7 +36,6 @@ namespace InteractiveMap
         // marker
         List<GMapMarker> Markers;
         PointLatLng mainMapPos;
-        Color tmpColor;
         List<InfoPanelContainer> database;
         int COUNTER = 0;
         string _FOLDER = "tmpFolder";
@@ -65,13 +63,12 @@ namespace InteractiveMap
             panelTimer.Tick += new EventHandler(panelTimerTick);
             //label2.Text = panel1.Location.X.ToString();
             panWidth = panel1.Size.Width;
-            tmpColor = btnAddPoint.BackColor;
             ////////////////////////////////////////////////////////////////////////////
             comboBox1.DataSource = Enum.GetValues(typeof(GMarkerGoogleType));
             comboBox1.SelectedIndex = 1;
 
             comboBox2.DataSource = Enum.GetValues(typeof(AccessMode));
-            comboBox2.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 1;
         }
 
         private void mapSetup(double lat, double lng)
@@ -98,10 +95,9 @@ namespace InteractiveMap
             MainMap.Manager.Mode = AccessMode.ServerAndCache;
 
             //Выбираем поставщика карт
-            MainMap.MapProvider =
-                GMapProviders.GoogleMap;
+            MainMap.MapProvider = GMapProviders.OpenStreetMap;
             //Режим работы (сервер, кеш, смешаный)
-            GMaps.Instance.Mode = AccessMode.ServerOnly;
+            GMaps.Instance.Mode = AccessMode.ServerAndCache;
 
             //Настройка прокси
             GMapProvider.WebProxy = System.Net.WebRequest.GetSystemWebProxy();
@@ -121,7 +117,7 @@ namespace InteractiveMap
             {
                 cb_mapProvider.Items.Add(str);
             }
-            cb_mapProvider.SelectedIndex = 0;
+            cb_mapProvider.SelectedIndex = 6;
         }
 
         private void panelTimerTick(object sender, EventArgs e)
@@ -161,7 +157,6 @@ namespace InteractiveMap
                     }
                 }
             }
-            label2.Text = panel1.Location.X.ToString();
         }
 
         private void addMarkers()
@@ -664,6 +659,11 @@ namespace InteractiveMap
         {
             MainMap.Manager.Mode = (AccessMode)comboBox2.SelectedIndex;
             MainMap.ReloadMap();
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
