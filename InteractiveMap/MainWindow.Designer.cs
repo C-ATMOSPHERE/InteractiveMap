@@ -1,6 +1,6 @@
 ﻿namespace InteractiveMap
 {
-    partial class MainForm
+    partial class MainWindow
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -28,27 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelText = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelHeader = new System.Windows.Forms.TextBox();
-            this.zoom_bar = new System.Windows.Forms.TrackBar();
-            this.btn_zoom_add = new System.Windows.Forms.Button();
-            this.btn_zoom_sub = new System.Windows.Forms.Button();
-            this.cb_mapProvider = new System.Windows.Forms.ComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.newDescription = new System.Windows.Forms.TextBox();
-            this.newHeaderText = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.submit = new System.Windows.Forms.Button();
-            this.addImage = new System.Windows.Forms.Button();
-            this.prewievImage = new System.Windows.Forms.PictureBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.MainMap = new GMap.NET.WindowsForms.GMapControl();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьБазуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,15 +47,9 @@
             this.infoShowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoHideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.infoToogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.MainMap = new GMap.NET.WindowsForms.GMapControl();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.zoom_bar)).BeginInit();
-            this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.prewievImage)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -136,167 +116,35 @@
             this.panelHeader.Text = "Template";
             this.panelHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // zoom_bar
+            // MainMap
             // 
-            this.zoom_bar.LargeChange = 1;
-            this.zoom_bar.Location = new System.Drawing.Point(6, 39);
-            this.zoom_bar.Maximum = 1700;
-            this.zoom_bar.Minimum = 1;
-            this.zoom_bar.Name = "zoom_bar";
-            this.zoom_bar.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.zoom_bar.Size = new System.Drawing.Size(45, 395);
-            this.zoom_bar.TabIndex = 2;
-            this.zoom_bar.TickFrequency = 50;
-            this.zoom_bar.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.zoom_bar.Value = 12;
-            this.zoom_bar.ValueChanged += new System.EventHandler(this.zoom_bar_ValueChanged);
-            // 
-            // btn_zoom_add
-            // 
-            this.btn_zoom_add.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btn_zoom_add.Location = new System.Drawing.Point(6, 10);
-            this.btn_zoom_add.Name = "btn_zoom_add";
-            this.btn_zoom_add.Size = new System.Drawing.Size(45, 23);
-            this.btn_zoom_add.TabIndex = 3;
-            this.btn_zoom_add.Text = "+";
-            this.btn_zoom_add.UseVisualStyleBackColor = true;
-            this.btn_zoom_add.Click += new System.EventHandler(this.btn_zoom_add_Click);
-            // 
-            // btn_zoom_sub
-            // 
-            this.btn_zoom_sub.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btn_zoom_sub.Location = new System.Drawing.Point(6, 440);
-            this.btn_zoom_sub.Name = "btn_zoom_sub";
-            this.btn_zoom_sub.Size = new System.Drawing.Size(45, 28);
-            this.btn_zoom_sub.TabIndex = 4;
-            this.btn_zoom_sub.Text = "-";
-            this.btn_zoom_sub.UseVisualStyleBackColor = true;
-            this.btn_zoom_sub.Click += new System.EventHandler(this.btn_zoom_sub_Click);
-            // 
-            // cb_mapProvider
-            // 
-            this.cb_mapProvider.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_mapProvider.FormattingEnabled = true;
-            this.cb_mapProvider.Location = new System.Drawing.Point(57, 32);
-            this.cb_mapProvider.Name = "cb_mapProvider";
-            this.cb_mapProvider.Size = new System.Drawing.Size(200, 21);
-            this.cb_mapProvider.TabIndex = 5;
-            this.cb_mapProvider.DropDownClosed += new System.EventHandler(this.cb_mapProvider_DropDownClosed);
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.newDescription);
-            this.groupBox2.Controls.Add(this.newHeaderText);
-            this.groupBox2.Controls.Add(this.comboBox1);
-            this.groupBox2.Controls.Add(this.submit);
-            this.groupBox2.Controls.Add(this.addImage);
-            this.groupBox2.Controls.Add(this.prewievImage);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.textBox1);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.btn_zoom_add);
-            this.groupBox2.Controls.Add(this.zoom_bar);
-            this.groupBox2.Controls.Add(this.btn_zoom_sub);
-            this.groupBox2.Controls.Add(this.cb_mapProvider);
-            this.groupBox2.Location = new System.Drawing.Point(726, 22);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(274, 566);
-            this.groupBox2.TabIndex = 6;
-            this.groupBox2.TabStop = false;
-            // 
-            // newDescription
-            // 
-            this.newDescription.Location = new System.Drawing.Point(57, 374);
-            this.newDescription.Multiline = true;
-            this.newDescription.Name = "newDescription";
-            this.newDescription.Size = new System.Drawing.Size(200, 164);
-            this.newDescription.TabIndex = 10;
-            this.newDescription.Text = "Описание";
-            // 
-            // newHeaderText
-            // 
-            this.newHeaderText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.newHeaderText.Location = new System.Drawing.Point(57, 115);
-            this.newHeaderText.Name = "newHeaderText";
-            this.newHeaderText.Size = new System.Drawing.Size(200, 20);
-            this.newHeaderText.TabIndex = 10;
-            this.newHeaderText.Text = "Заголовок";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(136, 88);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 8;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // submit
-            // 
-            this.submit.BackColor = System.Drawing.SystemColors.Control;
-            this.submit.Location = new System.Drawing.Point(57, 544);
-            this.submit.Name = "submit";
-            this.submit.Size = new System.Drawing.Size(200, 23);
-            this.submit.TabIndex = 8;
-            this.submit.Text = "Готово";
-            this.submit.UseVisualStyleBackColor = false;
-            this.submit.Click += new System.EventHandler(this.submit_Click);
-            // 
-            // addImage
-            // 
-            this.addImage.BackColor = System.Drawing.SystemColors.Control;
-            this.addImage.Location = new System.Drawing.Point(110, 345);
-            this.addImage.Name = "addImage";
-            this.addImage.Size = new System.Drawing.Size(147, 23);
-            this.addImage.TabIndex = 8;
-            this.addImage.Text = "Добавить изображение";
-            this.addImage.UseVisualStyleBackColor = false;
-            this.addImage.Click += new System.EventHandler(this.loadImage_Click);
-            // 
-            // prewievImage
-            // 
-            this.prewievImage.Location = new System.Drawing.Point(57, 141);
-            this.prewievImage.Name = "prewievImage";
-            this.prewievImage.Size = new System.Drawing.Size(200, 200);
-            this.prewievImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.prewievImage.TabIndex = 9;
-            this.prewievImage.TabStop = false;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(166, 59);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(91, 20);
-            this.textBox2.TabIndex = 7;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(57, 60);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(103, 20);
-            this.textBox1.TabIndex = 7;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(54, 91);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Выбор метки:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(57, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Поставщик Карт";
+            this.MainMap.Bearing = 0F;
+            this.MainMap.CanDragMap = true;
+            this.MainMap.EmptyTileColor = System.Drawing.Color.Navy;
+            this.MainMap.GrayScaleMode = false;
+            this.MainMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.MainMap.LevelsKeepInMemmory = 5;
+            this.MainMap.Location = new System.Drawing.Point(6, 10);
+            this.MainMap.MarkersEnabled = true;
+            this.MainMap.MaxZoom = 2;
+            this.MainMap.MinZoom = 2;
+            this.MainMap.MouseWheelZoomEnabled = true;
+            this.MainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.MainMap.Name = "MainMap";
+            this.MainMap.NegativeMode = false;
+            this.MainMap.PolygonsEnabled = true;
+            this.MainMap.RetryLoadTile = 0;
+            this.MainMap.RoutesEnabled = true;
+            this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.MainMap.ShowTileGridLines = false;
+            this.MainMap.Size = new System.Drawing.Size(656, 458);
+            this.MainMap.TabIndex = 0;
+            this.MainMap.Zoom = 0D;
+            this.MainMap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.MainMap_OnMarkerClick);
+            this.MainMap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.MainMap_OnMarkerEnter);
+            this.MainMap.OnMarkerLeave += new GMap.NET.WindowsForms.MarkerLeave(this.MainMap_OnMarkerLeave);
+            this.MainMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainMap_MouseClick);
             // 
             // menuStrip1
             // 
@@ -328,7 +176,6 @@
             this.сохранитьБазуToolStripMenuItem.Name = "сохранитьБазуToolStripMenuItem";
             this.сохранитьБазуToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.сохранитьБазуToolStripMenuItem.Text = "Сохранить базу";
-            this.сохранитьБазуToolStripMenuItem.Click += new System.EventHandler(this.сохранитьБазуToolStripMenuItem_Click);
             // 
             // загрузитьБазуToolStripMenuItem
             // 
@@ -397,71 +244,15 @@
             this.infoToogleToolStripMenuItem.Text = "Info_Toogle";
             this.infoToogleToolStripMenuItem.Click += new System.EventHandler(this.button1_Click);
             // 
-            // comboBox2
-            // 
-            this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(879, 3);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 8;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(721, 6);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(152, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Режим работы (online/offline)";
-            // 
-            // MainMap
-            // 
-            this.MainMap.Bearing = 0F;
-            this.MainMap.CanDragMap = true;
-            this.MainMap.EmptyTileColor = System.Drawing.Color.Navy;
-            this.MainMap.GrayScaleMode = false;
-            this.MainMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.MainMap.LevelsKeepInMemmory = 5;
-            this.MainMap.Location = new System.Drawing.Point(6, 10);
-            this.MainMap.MarkersEnabled = true;
-            this.MainMap.MaxZoom = 2;
-            this.MainMap.MinZoom = 2;
-            this.MainMap.MouseWheelZoomEnabled = true;
-            this.MainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.MainMap.Name = "MainMap";
-            this.MainMap.NegativeMode = false;
-            this.MainMap.PolygonsEnabled = true;
-            this.MainMap.RetryLoadTile = 0;
-            this.MainMap.RoutesEnabled = true;
-            this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.MainMap.ShowTileGridLines = false;
-            this.MainMap.Size = new System.Drawing.Size(656, 458);
-            this.MainMap.TabIndex = 0;
-            this.MainMap.Zoom = 0D;
-            this.MainMap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.MainMap_OnMarkerClick);
-            this.MainMap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.MainMap_OnMarkerEnter);
-            this.MainMap.OnMarkerLeave += new GMap.NET.WindowsForms.MarkerLeave(this.MainMap_OnMarkerLeave);
-            this.MainMap.OnPositionChanged += new GMap.NET.PositionChanged(this.MainMap_OnPositionChanged);
-            this.MainMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.MainMap_OnMapZoomChanged);
-            this.MainMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainMap_MouseClick);
-            // 
-            // MainForm
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1012, 600);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.label4);
             this.KeyPreview = true;
-            this.Name = "MainForm";
+            this.Name = "MainWindow";
             this.Text = "Интерактивная карта";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -471,10 +262,6 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.zoom_bar)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.prewievImage)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -486,38 +273,21 @@
 
         private GMap.NET.WindowsForms.GMapControl MainMap;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TrackBar zoom_bar;
-        private System.Windows.Forms.Button btn_zoom_add;
-        private System.Windows.Forms.Button btn_zoom_sub;
-        private System.Windows.Forms.ComboBox cb_mapProvider;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox panelHeader;
         private System.Windows.Forms.TextBox panelText;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.TextBox newDescription;
-        private System.Windows.Forms.TextBox newHeaderText;
-        private System.Windows.Forms.Button submit;
-        private System.Windows.Forms.Button addImage;
-        private System.Windows.Forms.PictureBox prewievImage;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem сохранитьБазуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem загрузитьБазуToolStripMenuItem;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem test1ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoShowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoHideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сохранитьКэшToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem загрузитьКэшToolStripMenuItem;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripMenuItem infoToogleToolStripMenuItem;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
     }
 }

@@ -13,7 +13,7 @@ using System.Xml.Linq;
 
 namespace InteractiveMap
 {
-    public partial class MainForm : Form
+    public partial class MainWindow : Form
     {
         bool imageSizeNotif = true;//один раз выводим ведомление о размерах изображения
         int animDur = 100;//продолжительность 
@@ -35,7 +35,7 @@ namespace InteractiveMap
         string _FOLDER = "tmpFolder";
         string _FILENAME = "db.xml";
 
-        public MainForm()
+        public MainWindow()
         {
             InitializeComponent();
         }
@@ -57,12 +57,6 @@ namespace InteractiveMap
             panelTimer.Tick += new EventHandler(panelTimerTick);
             //label2.Text = panel1.Location.X.ToString();
             panWidth = panel1.Size.Width;
-            ////////////////////////////////////////////////////////////////////////////
-            comboBox1.DataSource = Enum.GetValues(typeof(GMarkerGoogleType));
-            comboBox1.SelectedIndex = 1;
-
-            comboBox2.DataSource = Enum.GetValues(typeof(AccessMode));
-            comboBox2.SelectedIndex = 1;
         }
 
         private void mapSetup(double lat, double lng)
@@ -84,7 +78,6 @@ namespace InteractiveMap
             MainMap.RoutesEnabled = true; //Разрешаем маршруты
             //gMapControl1.ShowTileGridLines = true; //тайловая 
             MainMap.Zoom = 15; //начальное приближение
-            zoom_bar.Value = (int)MainMap.Zoom * 100;
             MainMap.Dock = DockStyle.Fill;//размер окна карты относительно формы
             MainMap.Manager.Mode = AccessMode.ServerAndCache;
 
@@ -98,20 +91,6 @@ namespace InteractiveMap
             GMapProvider.WebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
             //Устанавливаем начальную точку
             MainMap.Position = new PointLatLng(lat, lng);
-
-            //устанавливаем зум
-            zoom_bar.Minimum = MainMap.MinZoom * 100;
-            zoom_bar.Maximum = MainMap.MaxZoom * 100;
-            zoom_bar.TickFrequency = 50;
-
-            //Настройка поставщика карт
-            String[] mapProvList = { "Google Maps", "Google Maps спутник", "Google Maps гибридный", "Яндекс Карты", "Яндекс Карты спутник", "Яндекс Карты гибридный", "OpenStreer Map" };
-            //GMapProviders.
-            foreach (string str in mapProvList)
-            {
-                cb_mapProvider.Items.Add(str);
-            }
-            cb_mapProvider.SelectedIndex = 6;
         }
 
         private void panelTimerTick(object sender, EventArgs e)
@@ -193,38 +172,6 @@ namespace InteractiveMap
             MainMap.Zoom = ((int)(MainMap.Zoom + 0.99)) - 1;
         }
 
-        private void zoom_bar_ValueChanged(object sender, EventArgs e)
-        {
-            MainMap.Zoom = zoom_bar.Value / 100.0;
-        }
-
-        private void MainMap_OnMapZoomChanged()
-        {
-            zoom_bar.Value = (int)(MainMap.Zoom * 100.0);
-        }
-
-        private void cb_mapProvider_DropDownClosed(object sender, EventArgs e)
-        {
-            switch (cb_mapProvider.SelectedItem.ToString())
-            {
-                case "Google Maps": MainMap.MapProvider = GMapProviders.GoogleMap; break;
-                case "Google Maps спутник": MainMap.MapProvider = GMapProviders.GoogleSatelliteMap; break;
-                case "Google Maps гибридный": MainMap.MapProvider = GMapProviders.GoogleHybridMap; break;
-                case "Яндекс Карты": MainMap.MapProvider = GMapProviders.YandexMap; break;
-                case "Яндекс Карты спутник": MainMap.MapProvider = GMapProviders.YandexSatelliteMap; break;
-                case "Яндекс Карты гибридный": MainMap.MapProvider = GMapProviders.YandexHybridMap; break;
-                case "OpenStreer Map": MainMap.MapProvider = GMapProviders.OpenStreetMap; break;
-                default: MainMap.MapProvider = GMapProviders.GoogleMap; break;
-            }
-        }
-
-        private void MainMap_OnPositionChanged(PointLatLng point)
-        {
-            mainMapPos = point;
-            textBox1.Text = "Lat: " + mainMapPos.Lat.ToString();
-            textBox2.Text = "Lng: " + mainMapPos.Lng.ToString();
-        }
-
         private void MainMap_MouseClick(object sender, MouseEventArgs e)
         {
             /*if (e.Button == MouseButtons.Left && addPointFlag)
@@ -258,188 +205,6 @@ namespace InteractiveMap
             }
         }
 
-        private void submit_Click(object sender, EventArgs e)
-        {
-            string errorText = "Ошибка!\n";
-            bool erFlag = false;
-            if (newHeaderText.Text == String.Empty)
-            {
-                erFlag = true;
-                errorText += "Нужно ввести заголовок!\n";
-            }
-            if (newDescription.Text == String.Empty)
-            {
-                erFlag = true;
-                errorText += "Нужно ввести описание!\n";
-            }
-            if (prewievImage.Image == null)
-            {
-                erFlag = true;
-                errorText += "Нужно выбрать изображение!\n";
-            }
-            if (comboBox1.SelectedIndex == 0)
-            {
-                erFlag = true;
-                errorText += "Нужно выбрать тип маркера!";
-            }
-            if (!erFlag)
-            {
-                InfoPanelContainer tmpItem;
-                tmpItem = new InfoPanelContainer(COUNTER, comboBox1.SelectedIndex, newHeaderText.Text,
-                    newDescription.Text, prewievImage.Image);
-                database.Add(tmpItem);
-
-                GMapMarker tmpMark = new GMarkerGoogle(mainMapPos, (GMarkerGoogleType)comboBox1.SelectedIndex);
-                tmpMark.ToolTipText = newHeaderText.Text;
-                tmpMark.Tag = COUNTER;
-                layMain.Markers.Add(tmpMark);
-
-                COUNTER++;
-
-                panelHeader.Text = newHeaderText.Text;
-                panelText.Text = newDescription.Text;
-                pictureBox1.Image = prewievImage.Image;
-
-                InfoPanelToogle(true);
-            }
-            else
-            {
-                MessageBox.Show(errorText);
-            }
-        }
-
-        private void loadImage_Click(object sender, EventArgs e)
-        {
-            if (imageSizeNotif)
-            {
-                imageSizeNotif = false;
-                MessageBox.Show("Размер изображения должен быть 200x200!");
-            }
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Изображения|*.jpg;*.png;*.jpeg";
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                prewievImage.Image = loadImage(ofd.FileName);
-                if (prewievImage.Image.Height != 200 && prewievImage.Image.Width != 200)
-                {
-                    MessageBox.Show("Изображение не 200x200!\nИзображение будет выведено с искажениями!");
-                }
-            }
-        }
-
-        private void btnAddPoint_Click(object sender, EventArgs e)
-        {
-            /*addPointFlag = true;
-            btnAddPoint.BackColor = Color.Red;
-            MainMap.CanDragMap = false;*/
-            GMapMarker tmpMark = new GMarkerGoogle(mainMapPos, (GMarkerGoogleType)comboBox1.SelectedIndex);
-            tmpMark.ToolTipText = newHeaderText.Text;
-            tmpMark.Tag = layMain.Markers.Count;
-            layMain.Markers.Add(tmpMark);
-        }
-
-        private void dbItemDelete(int id)
-        {
-            for (int i = 0; i < layMain.Markers.Count; i++)
-            {
-                if ((int)layMain.Markers[i].Tag == id)
-                {
-                    layMain.Markers.RemoveAt(i);
-                    break;
-                }
-            }
-            for (int i = 0; i < database.Count; i++)
-            {
-                if (database[i].id == id)
-                {
-                    database.RemoveAt(i);
-                    break;
-                }
-            }
-        }
-
-        private void dbSave(string path)
-        {
-            try
-            {
-                int counter = 0;
-
-                if (Directory.Exists(_FOLDER))
-                {
-                    Directory.Delete(_FOLDER, true);
-                }
-
-                Directory.CreateDirectory(_FOLDER);
-                xmlSave(_FOLDER + "/" + _FILENAME);
-
-                foreach (InfoPanelContainer cont in database)
-                {
-                    var tmpImg = new Bitmap(cont.image);
-                    //cont.image.Save(_FOLDER + "/" + cont.id.ToString() + ".img");
-                    tmpImg.Save(_FOLDER + "/" + cont.id.ToString() + ".img");
-                    counter++;
-                }
-
-                zipFolder(_FOLDER, path);
-                Directory.Delete(_FOLDER, true);
-
-                MessageBox.Show("База успешно сохранена!\nВсего записей: " + counter.ToString());
-            }
-            catch(Exception e)
-            {
-                MessageBox.Show(e.ToString());
-            }
-        }
-
-        GMarkerGoogle getMarker(int id)
-        {
-            foreach (GMarkerGoogle mark in layMain.Markers)
-            {
-                if ((int)mark.Tag == id)
-                {
-                    return mark;
-                }
-            }
-            return null;
-        }
-
-        private void xmlSave(string savePath)
-        {
-            XDocument xDoc = new XDocument();
-
-            XElement root = new XElement("Places");
-            XElement place = new XElement("place");
-
-            foreach (InfoPanelContainer cont in database)
-            {
-                double lat, lon;
-                place = new XElement("place");
-                place.Add(new XAttribute("id", cont.id));
-                place.Add(new XElement("header", cont.header));
-                place.Add(new XElement("description", cont.mainText));
-                place.Add(new XElement("image", cont.id.ToString() + ".img"));
-                place.Add(new XElement("markerType", cont.markerType));
-                try
-                {
-                    lat = getMarker(cont.id).Position.Lat;
-                    lon = getMarker(cont.id).Position.Lng;
-                }
-                catch
-                {
-                    MessageBox.Show("Ошибка при доступе к координатам маркера!");
-                    return;
-                }
-
-                place.Add(new XElement("lat", lat));
-                place.Add(new XElement("lon", lon));
-
-                root.Add(place);
-            }
-
-            xDoc.Add(root);
-            xDoc.Save(savePath);
-        }
-
         private void dbLoad(string loadPath)
         {
             if (Directory.Exists(_FOLDER))
@@ -449,7 +214,7 @@ namespace InteractiveMap
             //распаковываем
             try
             {
-                unZipFolder(loadPath,_FOLDER);
+                unZipFolder(loadPath, _FOLDER);
             }
             catch (Exception e)
             {
@@ -579,16 +344,6 @@ namespace InteractiveMap
             //label2.Text = panelState.ToString();
         }
 
-        private void сохранитьБазуToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "База данных|*.db|Архив|*.zip";
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                dbSave(sfd.FileName);
-            }
-        }
-
         private void загрузитьБазуToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -617,12 +372,6 @@ namespace InteractiveMap
             MainMap.ShowImportDialog();
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MainMap.Manager.Mode = (AccessMode)comboBox2.SelectedIndex;
-            MainMap.ReloadMap();
-        }
-
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
@@ -630,8 +379,6 @@ namespace InteractiveMap
 
         private void MainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
                 panelId = (int)item.Tag;
 
                 foreach (InfoPanelContainer container in database)
@@ -643,14 +390,6 @@ namespace InteractiveMap
                         break;
                     }
                 }
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                if (MessageBox.Show("Удалить метку?", "Внимание!", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    dbItemDelete((int)item.Tag);
-                }
-            }
         }
 
         private void MainMap_OnMarkerEnter(GMapMarker item)
