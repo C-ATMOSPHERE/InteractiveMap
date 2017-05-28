@@ -34,6 +34,7 @@
             this.panelText = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panelHeader = new System.Windows.Forms.TextBox();
+            this.MainMap = new GMap.NET.WindowsForms.GMapControl();
             this.zoom_bar = new System.Windows.Forms.TrackBar();
             this.btn_zoom_add = new System.Windows.Forms.Button();
             this.btn_zoom_sub = new System.Windows.Forms.Button();
@@ -63,7 +64,7 @@
             this.infoToogleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.MainMap = new GMap.NET.WindowsForms.GMapControl();
+            this.setPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -135,6 +136,38 @@
             this.panelHeader.TabIndex = 0;
             this.panelHeader.Text = "Template";
             this.panelHeader.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MainMap
+            // 
+            this.MainMap.Bearing = 0F;
+            this.MainMap.CanDragMap = true;
+            this.MainMap.EmptyTileColor = System.Drawing.Color.Navy;
+            this.MainMap.GrayScaleMode = false;
+            this.MainMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.MainMap.LevelsKeepInMemmory = 5;
+            this.MainMap.Location = new System.Drawing.Point(6, 10);
+            this.MainMap.MarkersEnabled = true;
+            this.MainMap.MaxZoom = 2;
+            this.MainMap.MinZoom = 2;
+            this.MainMap.MouseWheelZoomEnabled = true;
+            this.MainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.MainMap.Name = "MainMap";
+            this.MainMap.NegativeMode = false;
+            this.MainMap.PolygonsEnabled = true;
+            this.MainMap.RetryLoadTile = 0;
+            this.MainMap.RoutesEnabled = true;
+            this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.MainMap.ShowTileGridLines = false;
+            this.MainMap.Size = new System.Drawing.Size(656, 458);
+            this.MainMap.TabIndex = 0;
+            this.MainMap.Zoom = 0D;
+            this.MainMap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.MainMap_OnMarkerClick);
+            this.MainMap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.MainMap_OnMarkerEnter);
+            this.MainMap.OnMarkerLeave += new GMap.NET.WindowsForms.MarkerLeave(this.MainMap_OnMarkerLeave);
+            this.MainMap.OnPositionChanged += new GMap.NET.PositionChanged(this.MainMap_OnPositionChanged);
+            this.MainMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.MainMap_OnMapZoomChanged);
+            this.MainMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainMap_MouseClick);
             // 
             // zoom_bar
             // 
@@ -303,11 +336,12 @@
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.testToolStripMenuItem});
+            this.testToolStripMenuItem,
+            this.setPositionToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuStrip1.Size = new System.Drawing.Size(96, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(269, 24);
             this.menuStrip1.TabIndex = 7;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -372,28 +406,28 @@
             // test1ToolStripMenuItem
             // 
             this.test1ToolStripMenuItem.Name = "test1ToolStripMenuItem";
-            this.test1ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.test1ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.test1ToolStripMenuItem.Text = "Test_1";
             this.test1ToolStripMenuItem.Click += new System.EventHandler(this.test1ToolStripMenuItem_Click);
             // 
             // infoShowToolStripMenuItem
             // 
             this.infoShowToolStripMenuItem.Name = "infoShowToolStripMenuItem";
-            this.infoShowToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.infoShowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.infoShowToolStripMenuItem.Text = "Info_Show";
             this.infoShowToolStripMenuItem.Click += new System.EventHandler(this.infoShowToolStripMenuItem_Click);
             // 
             // infoHideToolStripMenuItem
             // 
             this.infoHideToolStripMenuItem.Name = "infoHideToolStripMenuItem";
-            this.infoHideToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.infoHideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.infoHideToolStripMenuItem.Text = "Info_Hide";
             this.infoHideToolStripMenuItem.Click += new System.EventHandler(this.infoHideToolStripMenuItem_Click);
             // 
             // infoToogleToolStripMenuItem
             // 
             this.infoToogleToolStripMenuItem.Name = "infoToogleToolStripMenuItem";
-            this.infoToogleToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.infoToogleToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.infoToogleToolStripMenuItem.Text = "Info_Toogle";
             this.infoToogleToolStripMenuItem.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -418,37 +452,13 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "Режим работы (online/offline)";
             // 
-            // MainMap
+            // setPositionToolStripMenuItem
             // 
-            this.MainMap.Bearing = 0F;
-            this.MainMap.CanDragMap = true;
-            this.MainMap.EmptyTileColor = System.Drawing.Color.Navy;
-            this.MainMap.GrayScaleMode = false;
-            this.MainMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.MainMap.LevelsKeepInMemmory = 5;
-            this.MainMap.Location = new System.Drawing.Point(6, 10);
-            this.MainMap.MarkersEnabled = true;
-            this.MainMap.MaxZoom = 2;
-            this.MainMap.MinZoom = 2;
-            this.MainMap.MouseWheelZoomEnabled = true;
-            this.MainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.MainMap.Name = "MainMap";
-            this.MainMap.NegativeMode = false;
-            this.MainMap.PolygonsEnabled = true;
-            this.MainMap.RetryLoadTile = 0;
-            this.MainMap.RoutesEnabled = true;
-            this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.MainMap.ShowTileGridLines = false;
-            this.MainMap.Size = new System.Drawing.Size(656, 458);
-            this.MainMap.TabIndex = 0;
-            this.MainMap.Zoom = 0D;
-            this.MainMap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.MainMap_OnMarkerClick);
-            this.MainMap.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.MainMap_OnMarkerEnter);
-            this.MainMap.OnMarkerLeave += new GMap.NET.WindowsForms.MarkerLeave(this.MainMap_OnMarkerLeave);
-            this.MainMap.OnPositionChanged += new GMap.NET.PositionChanged(this.MainMap_OnPositionChanged);
-            this.MainMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.MainMap_OnMapZoomChanged);
-            this.MainMap.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainMap_MouseClick);
+            this.setPositionToolStripMenuItem.Name = "setPositionToolStripMenuItem";
+            this.setPositionToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.setPositionToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.setPositionToolStripMenuItem.Text = "Set Position";
+            this.setPositionToolStripMenuItem.Click += new System.EventHandler(this.setPositionToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -519,6 +529,7 @@
         private System.Windows.Forms.ToolStripMenuItem infoToogleToolStripMenuItem;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setPositionToolStripMenuItem;
     }
 }
 

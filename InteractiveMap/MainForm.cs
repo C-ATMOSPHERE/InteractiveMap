@@ -675,5 +675,18 @@ namespace InteractiveMap
         {
             InfoPanelToogle(false);
         }
+
+        private void setPositionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PosDialog dial = new PosDialog();
+            dial.ShowDialog();
+            if (dial.DialogResult == DialogResult.OK)
+            {
+                float lon = dial.lon;
+                float lat = dial.lat;
+                MainMap.Position = new PointLatLng(lat, lon);
+                dial.Dispose();
+            }
+        }
     }
 }

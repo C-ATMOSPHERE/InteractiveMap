@@ -386,7 +386,8 @@ namespace InteractiveMap
                     if (container.id == panelId)
                     {
                         InfoWindow w1 = new InfoWindow(container.image, container.header, container.mainText);
-                        w1.Show();
+                    //w1.Show();
+                    w1.ShowDialog();
                         break;
                     }
                 }
