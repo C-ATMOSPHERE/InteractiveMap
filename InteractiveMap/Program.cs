@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace InteractiveMap
@@ -16,9 +13,7 @@ namespace InteractiveMap
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new MainWindow());
-            Application.Run(new MainForm());
-            //Application.Run(new DrawingTest());
+            Application.Run(new MainWindow());
         }
     }
 }

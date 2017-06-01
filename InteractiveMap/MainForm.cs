@@ -490,6 +490,7 @@ namespace InteractiveMap
                         (GMarkerGoogleType)int.Parse(elem.Element("markerType").Value)
                         );
                     tmp.Tag = int.Parse(elem.Attribute("id").Value);
+                    tmp.ToolTipText = elem.Element("header").Value;
                     layMain.Markers.Add(tmp);
 
                     counter++;

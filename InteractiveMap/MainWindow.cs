@@ -15,21 +15,14 @@ namespace InteractiveMap
 {
     public partial class MainWindow : Form
     {
-        bool imageSizeNotif = true;//один раз выводим ведомление о размерах изображения
-        int animDur = 100;//продолжительность 
-        /// <summary>
-        /// true = hide, false = show
-        /// </summary>
-        bool panelState = false;//true = show, false = hide;
-        bool panelMoving = false;//движется ли панель
+        int animDur = 8;
+        bool panelState = false;
+        bool panelMoving = false;
         int panelId;
         Timer panelTimer = new Timer();
         int panWidth;
-        // layers
         readonly GMapOverlay layMain = new GMapOverlay();
-        // marker
         List<GMapMarker> Markers;
-        PointLatLng mainMapPos;
         List<InfoPanelContainer> database;
         int COUNTER = 0;
         string _FOLDER = "tmpFolder";
@@ -46,144 +39,67 @@ namespace InteractiveMap
 
             MainMap.Overlays.Add(layMain);
             Markers = new List<GMapMarker>();
-            addMarkers();
-
             database = new List<InfoPanelContainer>();
-            /*currentMarker = new GMarkerGoogle(MainMap.Position, GMarkerGoogleType.arrow);
-            currentMarker.IsHitTestVisible = false;
-            top.Markers.Add(currentMarker);*/
             panel1.Location = new Point(-208, panel1.Location.Y);
-            panelTimer.Interval = 10;
+            panelTimer.Interval = 1;
             panelTimer.Tick += new EventHandler(panelTimerTick);
-            //label2.Text = panel1.Location.X.ToString();
             panWidth = panel1.Size.Width;
+            dbLoad("final.db");
+            GMaps.Instance.ImportFromGMDB("StaryCrym.gmdb");
+            MainMap.Manager.Mode = AccessMode.CacheOnly;
         }
 
         private void mapSetup(double lat, double lng)
         {
-            //Настройки для компонента GMap.
-
-            MainMap.Bearing = 0; //Азимут или наклон карты
-            MainMap.CanDragMap = true; //разрешаем перемещение 
-            MainMap.DragButton = MouseButtons.Left; //устанавливаем кнопку перемещения карты (ПКМ по умолчанию)
-            //gMapControl1.GrayScaleMode = true;
-            MainMap.MarkersEnabled = true; //включение пользовательских маркеров
-            //Указываем значение макс/мин приближения
+            MainMap.Bearing = 0;
+            MainMap.CanDragMap = true;
+            MainMap.DragButton = MouseButtons.Left;
+            MainMap.MarkersEnabled = true;
             MainMap.MaxZoom = 18;
             MainMap.MinZoom = 2;
-            //Устанавливаем центр приближения/удаления
             MainMap.MouseWheelZoomType = MouseWheelZoomType.MousePositionAndCenter;
-            MainMap.NegativeMode = false; //режим негатива (инвертированые цвета, ночной режим)
-            MainMap.PolygonsEnabled = true; //Разрешаем полигоны (??)
-            MainMap.RoutesEnabled = true; //Разрешаем маршруты
-            //gMapControl1.ShowTileGridLines = true; //тайловая 
-            MainMap.Zoom = 15; //начальное приближение
-            MainMap.Dock = DockStyle.Fill;//размер окна карты относительно формы
+            MainMap.NegativeMode = false;
+            MainMap.PolygonsEnabled = true;
+            MainMap.RoutesEnabled = true;
+            MainMap.Zoom = 15;
+            MainMap.Dock = DockStyle.Fill;
             MainMap.Manager.Mode = AccessMode.ServerAndCache;
-
-            //Выбираем поставщика карт
             MainMap.MapProvider = GMapProviders.OpenStreetMap;
-            //Режим работы (сервер, кеш, смешаный)
             GMaps.Instance.Mode = AccessMode.ServerAndCache;
-
-            //Настройка прокси
             GMapProvider.WebProxy = System.Net.WebRequest.GetSystemWebProxy();
             GMapProvider.WebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            //Устанавливаем начальную точку
             MainMap.Position = new PointLatLng(lat, lng);
         }
 
         private void panelTimerTick(object sender, EventArgs e)
         {
-            /////////////////////////////////////////////////////////////
-            //1000 ms
             int step = panWidth / (animDur / panelTimer.Interval);
-
-            //panelState -> true = hide, false = show;
             if (panelMoving)
             {
-                if (panelState) //скрывавем
+                if (panelState)
                 {
                     if (panel1.Location.X > -panWidth)
                     {
                         panel1.Location = new Point(panel1.Location.X - step, panel1.Location.Y);
                     }
-                    else
-                    {
+                    else{
                         panelMoving = false;
                         panelState = false;
                         panelTimer.Stop();
                     }
                 }
-                else //показывавем
-                {
+                else{
                     if (panel1.Location.X < 0)
                     {
                         panel1.Location = new Point(panel1.Location.X + step, panel1.Location.Y);
                     }
-                    else
-                    {
+                    else{
                         panelMoving = false;
                         panelState = true;
                         panelTimer.Stop();
-                        //panel1.Location = new Point(0, panel1.Location.Y);
                     }
                 }
             }
-        }
-
-        private void addMarkers()
-        {
-            //Markers.Add(new GMarkerGoogle(MainMap.), GMarkerGoogleType.arrow);
-            /*
-            Markers.Add(new GMarkerGoogle(new PointLatLng(45.03, 35.09), GMarkerGoogleType.black_small));
-            Markers.Add(new GMarkerGoogle(new PointLatLng(45.03, 35.10), GMarkerGoogleType.blue));
-            Markers.Add(new GMarkerGoogle(new PointLatLng(45.02, 35.09), GMarkerGoogleType.blue_dot));
-            Markers.Add(new GMarkerGoogle(new PointLatLng(45.02, 35.10), GMarkerGoogleType.blue_pushpin));
-
-            foreach(GMapMarker item in Markers)
-            {
-                layMain.Markers.Add(item);
-            }*/
-            /*GMapOverlay markers = new GMapOverlay("markers");
-            GMapMarker marker =
-                new GMarkerGoogle(
-                    new PointLatLng(45.02731, 35.08689),
-                    GMarkerGoogleType.blue_pushpin);
-            marker.ToolTipText = "hello\nout there";
-            marker.ToolTip.Fill = Brushes.Black;
-            marker.ToolTip.Foreground = Brushes.White;
-            marker.ToolTip.Stroke = Pens.Black;
-            marker.ToolTip.TextPadding = new Size(20, 20);
-            marker.Tag = "m_1445";
-            markers.Markers.Add(marker);
-            MainMap.Overlays.Add(markers);
-            mark_2 = new GMarkerGoogle(new PointLatLng(45.03, 35.09), GMarkerGoogleType.arrow);
-            markers.Markers.Add(mark_2);*/
-        }
-
-        private void btn_zoom_add_Click(object sender, EventArgs e)
-        {
-            MainMap.Zoom = ((int)MainMap.Zoom) + 1;
-        }
-
-        private void btn_zoom_sub_Click(object sender, EventArgs e)
-        {
-            MainMap.Zoom = ((int)(MainMap.Zoom + 0.99)) - 1;
-        }
-
-        private void MainMap_MouseClick(object sender, MouseEventArgs e)
-        {
-            /*if (e.Button == MouseButtons.Left && addPointFlag)
-            {
-                if (!panelState) InfoPanelToogle();
-                layMain.Markers.Add(new GMarkerGoogle(mainMapPos, (GMarkerGoogleType)comboBox1.SelectedIndex));
-            }*/
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            InfoPanelToogle();
         }
 
         private void InfoPanelToogle()
@@ -191,14 +107,10 @@ namespace InteractiveMap
             panelMoving = true;
             panelTimer.Start();
         }
-        /// <summary>
-        /// Открывает либо закрыает инфо панель
-        /// </summary>
-        /// <param name="openClose">true - открывает false - закрывает</param>
+
         private void InfoPanelToogle(bool openClose)
         {
             if (panelState ^ openClose)
-            //if (panelState == openClose)
             {
                 panelMoving = true;
                 panelTimer.Start();
@@ -211,7 +123,6 @@ namespace InteractiveMap
             {
                 Directory.Delete(_FOLDER, true);
             }
-            //распаковываем
             try
             {
                 unZipFolder(loadPath, _FOLDER);
@@ -220,7 +131,6 @@ namespace InteractiveMap
             {
                 MessageBox.Show(e.ToString());
             }
-            //Считываем данные
             XDocument xDoc = new XDocument();
             try
             {
@@ -232,12 +142,11 @@ namespace InteractiveMap
             }
 
             int counter = 0;
-            database.Clear();////////////////////////////сохранить базу до успешной загурзки!
-            layMain.Markers.Clear();/////////////////////сохранить базу до успешной загурзки!
+            database.Clear();
+            layMain.Markers.Clear();
 
             try
             {
-                //Устаналиваем локаль (влияет на десятичный разделитель: точка - американский, запятая - русский)
                 Application.CurrentCulture = new System.Globalization.CultureInfo("en-US");
                 foreach (XElement elem in xDoc.Element("Places").Elements("place"))
                 {
@@ -255,19 +164,18 @@ namespace InteractiveMap
                         (GMarkerGoogleType)int.Parse(elem.Element("markerType").Value)
                         );
                     tmp.Tag = int.Parse(elem.Attribute("id").Value);
+                    tmp.ToolTipText = elem.Element("header").Value;
                     layMain.Markers.Add(tmp);
 
                     counter++;
                 }
                 COUNTER = counter;
                 Application.CurrentCulture = new System.Globalization.CultureInfo("ru-RU");
-                MessageBox.Show("Загрузка успешно завершена.\nЗагржено файлов: " + counter.ToString());
             }
             catch (Exception e)
             {
                 MessageBox.Show("Ошибка чтения из базы данных!\n" + e.ToString());
             }
-            //Удаляем временные файлы
             try
             {
                 Directory.Delete(_FOLDER, true);
@@ -304,11 +212,6 @@ namespace InteractiveMap
             }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //markers
-        }
-
         private void test1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string outStr = "";
@@ -329,52 +232,12 @@ namespace InteractiveMap
             MessageBox.Show(outStr);
         }
 
-        private void infoShowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InfoPanelToogle(true);
-        }
-
-        private void infoHideToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InfoPanelToogle(false);
-        }
-
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
-        {
-            //label2.Text = panelState.ToString();
-        }
-
-        private void загрузитьБазуToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "База данных|*.db|Все файлы|*.*";
-            if (ofd.ShowDialog() == DialogResult.OK)
-            {
-                dbLoad(ofd.FileName);
-            }
-        }
-
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (Directory.Exists(_FOLDER))
             {
                 Directory.Delete(_FOLDER, true);
             }
-        }
-
-        private void сохранитьКэшToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MainMap.ShowExportDialog();
-        }
-
-        private void загрузитьКэшToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MainMap.ShowImportDialog();
-        }
-
-        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
         }
 
         private void MainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
@@ -386,7 +249,6 @@ namespace InteractiveMap
                     if (container.id == panelId)
                     {
                         InfoWindow w1 = new InfoWindow(container.image, container.header, container.mainText);
-                    //w1.Show();
                     w1.ShowDialog();
                         break;
                     }
@@ -414,6 +276,12 @@ namespace InteractiveMap
         private void MainMap_OnMarkerLeave(GMapMarker item)
         {
             InfoPanelToogle(false);
+        }
+
+        private void about_Click(object sender, EventArgs e)
+        {
+            aboutWindow inf = new aboutWindow();
+            inf.ShowDialog();
         }
     }
 }

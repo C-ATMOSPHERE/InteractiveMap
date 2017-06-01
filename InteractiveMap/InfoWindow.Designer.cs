@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InfoWindow));
             this.InfoImage = new System.Windows.Forms.PictureBox();
             this.InfoText = new System.Windows.Forms.TextBox();
             this.InfoCaption = new System.Windows.Forms.Label();
@@ -44,12 +45,12 @@
             this.InfoImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.InfoImage.TabIndex = 0;
             this.InfoImage.TabStop = false;
-            this.InfoImage.Click += new System.EventHandler(this.InfoImage_Click);
             // 
             // InfoText
             // 
             this.InfoText.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.InfoText.Cursor = System.Windows.Forms.Cursors.Default;
+            this.InfoText.HideSelection = false;
             this.InfoText.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.InfoText.Location = new System.Drawing.Point(12, 278);
             this.InfoText.Multiline = true;
@@ -72,10 +73,11 @@
             // 
             // button1
             // 
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button1.Location = new System.Drawing.Point(12, 425);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(817, 23);
-            this.button1.TabIndex = 3;
+            this.button1.TabIndex = 0;
             this.button1.Text = "Закрыть";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -89,9 +91,9 @@
             this.Controls.Add(this.InfoCaption);
             this.Controls.Add(this.InfoText);
             this.Controls.Add(this.InfoImage);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "InfoWindow";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.InfoWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.InfoImage)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
