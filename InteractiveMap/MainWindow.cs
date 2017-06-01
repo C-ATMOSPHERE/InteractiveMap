@@ -283,5 +283,10 @@ namespace InteractiveMap
             aboutWindow inf = new aboutWindow();
             inf.ShowDialog();
         }
+
+        private void легендаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pictureBox2.Visible = !pictureBox2.Visible;
+        }
     }
 }

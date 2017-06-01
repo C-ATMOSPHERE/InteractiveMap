@@ -13,6 +13,7 @@ namespace InteractiveMap
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new aboutWindow());
             Application.Run(new MainWindow());
         }
     }
